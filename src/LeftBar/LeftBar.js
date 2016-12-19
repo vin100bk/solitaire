@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
 
 import CardsStack from '../CardsStack';
+import EmptyDeck from './EmptyDeck';
 
 class LeftBar extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class LeftBar extends Component {
         };
 
         this.handlePress = this.handlePress.bind(this);
+        this.handleResetDeck = this.handleResetDeck.bind(this);
     }
 
     /**
@@ -32,6 +34,18 @@ class LeftBar extends Component {
         });
     }
 
+    /**
+     * Reset the deck
+     */
+    handleResetDeck() {
+        this.setState((prevState, props) => {
+            prevState.hidden = prevState.shown.reverse();
+            // Pick the first card
+            let v = prevState.hidden.splice(-1, 1)[0];
+            prevState.shown = [v];
+        });
+    }
+
     render() {
         const style = {
             marginTop: 10,
@@ -39,12 +53,18 @@ class LeftBar extends Component {
         };
         return (
             <View style={{flex: 1, alignItems: 'center', backgroundColor: '#2B7B3B', paddingTop: 10}}>
-                <CardsStack key="hidden"
-                            cards={this.state.hidden}
-                            allHidden={true}
-                            style={style}
-                            offset={1}
-                            onPress={this.handlePress}/>
+                {this.state.hidden.length > 0 ? (
+                    <CardsStack key="hidden"
+                                cards={this.state.hidden}
+                                allHidden={true}
+                                style={style}
+                                offset={1}
+                                onPress={this.handlePress}/>
+                ) : (
+                    <EmptyDeck style={style}
+                               disabled={this.state.shown.length <= 1}
+                               onPress={this.handleResetDeck}/>
+                )}
 
                 <CardsStack key="shown"
                             cards={this.state.shown}
