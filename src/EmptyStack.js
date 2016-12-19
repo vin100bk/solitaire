@@ -23,7 +23,7 @@ class EmptyStack extends Component {
 
         const style = {width: 50, height: 72.6, opacity: 0.1};
         return (
-            <Image source={picture} style={style}/>
+            <Image source={picture} style={Object.assign(style, this.props.style)}/>
         );
     }
 }
