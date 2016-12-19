@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, Image } from 'react-native';
+import { AppRegistry, View, Image, TouchableOpacity } from 'react-native';
 
 class Card extends Component {
+    constructor(props) {
+        super(props);
+
+        /**
+         * Store the back card. Performance reasons
+         * @type {*|Object}
+         */
+        this.back = require('../assets/img/cards/back.png');
+
+        this.handlePress = this.handlePress.bind(this);
+    }
+
     /**
      * Get the require associated to the card
      * @param card
@@ -174,20 +186,54 @@ class Card extends Component {
 
     }
 
+    /**
+     * Get the total height of the stack
+     * @returns {number}
+     */
+    getHeight() {
+        let nextCard = this.props.children;
+        let height = 72.6;
+        while (nextCard) {
+            height += 20;
+            nextCard = nextCard.props.children;
+        }
+
+        return height;
+    }
+
+    /**
+     * When you press on a card
+     */
+    handlePress() {
+        this.props.onPress(this.props.value);
+    }
+
     render() {
+        // Card
         let source;
         if (this.props.hidden) {
             // Hidden card
-            source = require('../assets/img/cards/back.png');
+            source = this.back;
         } else {
             // Shown card
             source = this.getRequire(this.props.value);
         }
 
+        // Style
+        const style = {
+            position: 'absolute',
+            top: this.props.offset ? Number(this.props.offset) : 0,
+            left: 0
+        };
+
         return (
-            <Image source={source} style={Object.assign({width: 50, height: 72.6}, this.props.style)}>
-                {this.props.children}
-            </Image>
+            <TouchableOpacity disabled={!this.props.onPress || (this.props.hidden && Boolean(this.props.children))}
+                              onPress={this.handlePress} activeOpacity={0.6} style={style}>
+                <View style={{height: this.getHeight()}}>
+                    <Image source={source} style={Object.assign({width: 50, height: 72.6}, this.props.style)}/>
+                    {this.props.children}
+                </View>
+            </TouchableOpacity>
         );
     }
 }

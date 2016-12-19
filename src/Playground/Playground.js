@@ -28,16 +28,17 @@ class Playground extends Component {
     render() {
         let columns = [];
         for (let i = 1; i <= 7; i++) {
-            columns.push(<CardsStack key={i} cards={this.props['column' + i]} hiddenCards={this.state.hiddenCards}
-                                     cardStyle={{paddingTop: 20}}/>);
+            columns.push(<CardsStack key={i}
+                                     cards={this.props['column' + i]}
+                                     hiddenCards={this.state.hiddenCards}
+                                     offset={20}/>);
         }
 
         const style = {
             flex: 7,
             flexDirection: 'row',
             justifyContent: 'space-around',
-            backgroundColor: '#34A249',
-            paddingTop: 10
+            backgroundColor: '#34A249'
         };
 
         return (

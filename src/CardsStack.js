@@ -18,7 +18,8 @@ class CardsStack extends Component {
             return <Card key={this.props.cards[index]}
                          value={this.props.cards[index]}
                          hidden={(this.props.allHidden) || (this.props.hiddenCards && this.props.hiddenCards[this.props.cards[index]])}
-                         style={this.props.cardStyle}>
+                         offset={this.props.offset}
+                         onPress={this.props.onPress}>
                 {this.getNextCard(index + 1)}
             </Card>;
         } else {
