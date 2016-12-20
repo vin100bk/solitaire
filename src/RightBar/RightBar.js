@@ -26,6 +26,10 @@ class RightBar extends Component {
                 justifyContent: 'space-around',
                 alignItems: 'center',
                 backgroundColor: '#2B7B3B'
+            },
+            stacks: {
+                width: 50,
+                height: 73
             }
         });
     }
@@ -34,10 +38,12 @@ class RightBar extends Component {
         // Hearts
         let hearts;
         if (this.props.hearts.length == 0) {
-            hearts = <EmptyStack kind="hearts"/>;
+            hearts = <EmptyStack kind="hearts"
+                                 onPress={(card) => this.props.onPress(card, 'hearts')}/>;
         } else {
             hearts = <CardsStack key="hearts"
                                  cards={this.props.hearts}
+                                 style={this.style.stacks}
                                  allShown={true}
                                  cardSelected={this.props.cardSelected}
                                  onPress={(card) => this.props.onPress(card, 'hearts')}/>;
@@ -46,10 +52,12 @@ class RightBar extends Component {
         // Diamonds
         let diamonds;
         if (this.props.diamonds.length == 0) {
-            diamonds = <EmptyStack kind="diamonds"/>;
+            diamonds = <EmptyStack kind="diamonds"
+                                   onPress={(card) => this.props.onPress(card, 'diamonds')}/>;
         } else {
             diamonds = <CardsStack key="diamonds"
                                    cards={this.props.diamonds}
+                                   style={this.style.stacks}
                                    allShown={true}
                                    cardSelected={this.props.cardSelected}
                                    onPress={(card) => this.props.onPress(card, 'diamonds')}/>;
@@ -58,10 +66,12 @@ class RightBar extends Component {
         // Clubs
         let clubs;
         if (this.props.clubs.length == 0) {
-            clubs = <EmptyStack kind="clubs"/>;
+            clubs = <EmptyStack kind="clubs"
+                                onPress={(card) => this.props.onPress(card, 'clubs')}/>;
         } else {
             clubs = <CardsStack key="clubs"
                                 cards={this.props.clubs}
+                                style={this.style.stacks}
                                 allShown={true}
                                 cardSelected={this.props.cardSelected}
                                 onPress={(card) => this.props.onPress(card, 'clubs')}/>;
@@ -70,10 +80,12 @@ class RightBar extends Component {
         // Spades
         let spades;
         if (this.props.spades.length == 0) {
-            spades = <EmptyStack kind="spades"/>;
+            spades = <EmptyStack kind="spades"
+                                 onPress={(card) => this.props.onPress(card, 'spades')}/>;
         } else {
             spades = <CardsStack key="spades"
                                  cards={this.props.spades}
+                                 style={this.style.stacks}
                                  allShown={true}
                                  cardSelected={this.props.cardSelected}
                                  onPress={(card) => this.props.onPress(card, 'spades')}/>;
