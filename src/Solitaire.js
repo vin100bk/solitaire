@@ -25,6 +25,7 @@ class Solitaire extends Component {
         // State
         this.state = {
             deck: cards,
+            shownDeck: [],
             column1: column1,
             column2: column2,
             column3: column3,
@@ -42,6 +43,8 @@ class Solitaire extends Component {
         // Handlers
         this.handleSelectCard = this.handleSelectCard.bind(this);
         this.handlePressDeck = this.handlePressDeck.bind(this);
+        this.handlePressDeck = this.handlePressDeck.bind(this);
+        this.handleResetDeck = this.handleResetDeck.bind(this);
 
         // Store the deck of the card selected
         this.deckCardSelected = null;
@@ -133,7 +136,7 @@ class Solitaire extends Component {
      * @returns {boolean}
      */
     isValidPlayground(card1, card2) {
-        if(card2 === null) {
+        if (card2 === null) {
             // Empty column
             return /^13/.test(card1);
         } else {
@@ -156,8 +159,8 @@ class Solitaire extends Component {
      */
     isValidAs(card1, card2, deck) {
         const deckColor = deck.substr(0, 1);
-        if(new RegExp(deckColor + '$', 'i').test(card1)) {
-            if(card2 === null) {
+        if (new RegExp(deckColor + '$', 'i').test(card1)) {
+            if (card2 === null) {
                 // Empty stack
                 return /^1[DHCS]$/.test(card1);
             } else {
@@ -197,7 +200,7 @@ class Solitaire extends Component {
      */
     handleSelectCard(card, deck) {
         if (this.state.cardSelected) {
-            if (deck === 'deck') {
+            if (deck === 'shownDeck') {
                 // Deck
                 this.selectedCard(card, deck);
             } else if (/^column[1-7]$/.test(deck)) {
@@ -230,13 +233,44 @@ class Solitaire extends Component {
         this.unSelectCard();
     }
 
+    /**
+     * When you press on the deck
+     * @param value
+     */
+    handlePressDeck(value) {
+        this.setState((prevState, props) => {
+            let v = prevState.deck.splice(-1, 1)[0];
+
+            // Check the values match
+            if (v !== value) {
+                throw new Error('Error during the game, mismatching values (v=' + v + ', value=' + value + ')');
+            }
+
+            prevState.shownDeck.push(value);
+        });
+    }
+
+    /**
+     * Reset the deck
+     */
+    handleResetDeck() {
+        this.setState((prevState, props) => {
+            prevState.deck = prevState.shownDeck.reverse();
+            // Pick the first card
+            let v = prevState.deck.splice(-1, 1)[0];
+            prevState.shownDeck = [v];
+        });
+    }
+
     render() {
         return (
             <View style={this.style.view}>
                 <LeftBar cards={this.state.deck}
+                         shownCards={this.state.shownDeck}
                          cardSelected={this.state.cardSelected}
                          onPress={this.handleSelectCard}
-                         onPressDeck={this.handlePressDeck}/>
+                         onPressDeck={this.handlePressDeck}
+                         onResetDeck={this.handleResetDeck}/>
                 <Playground column1={this.state.column1}
                             column2={this.state.column2}
                             column3={this.state.column3}
