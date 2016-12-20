@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, View, StyleSheet } from 'react-native';
 
 import Card from './Card';
+import EmptyCard from './EmptyCard';
 
 /**
  * Represent a cards stack
@@ -51,6 +52,8 @@ class CardsStack extends Component {
                          onPress={this.props.onPress}>
                 {this.getNextCard(index + 1)}
             </Card>;
+        } else if (index === 0) {
+            return <EmptyCard onPress={this.props.onPress}/>;
         } else {
             return;
         }
