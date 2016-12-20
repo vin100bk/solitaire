@@ -1,17 +1,42 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, Image, TouchableOpacity } from 'react-native';
+import { AppRegistry, Animated, View, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 
+/**
+ * Represent a card
+ */
 class Card extends Component {
     constructor(props) {
         super(props);
 
-        /**
-         * Store the back card. Performance reasons
-         * @type {*|Object}
-         */
+        // Store the back card. Performance reasons
         this.back = require('../assets/img/cards/back.png');
 
+        // Handlers
         this.handlePress = this.handlePress.bind(this);
+
+        // Style
+        this.style = this.getStyle();
+    }
+
+    /**
+     * Get the component style
+     * @returns {*}
+     */
+    getStyle() {
+        return StyleSheet.create({
+            view: {
+                position: 'absolute',
+                top: this.props.offset ? Number(this.props.offset) : 0,
+                left: 0
+            },
+            image: {
+                width: 50,
+                height: 73
+            },
+            imageSelected: {
+                opacity: 0.5
+            }
+        });
     }
 
     /**
@@ -22,6 +47,18 @@ class Card extends Component {
     getRequire(card) {
         let ret;
         switch (card) {
+            case '1C':
+                ret = require('../assets/img/cards/1C.png');
+                break;
+            case '1D':
+                ret = require('../assets/img/cards/1D.png');
+                break;
+            case '1H':
+                ret = require('../assets/img/cards/1H.png');
+                break;
+            case '1S':
+                ret = require('../assets/img/cards/1S.png');
+                break;
             case '2C':
                 ret = require('../assets/img/cards/2C.png');
                 break;
@@ -130,53 +167,41 @@ class Card extends Component {
             case '10S':
                 ret = require('../assets/img/cards/10S.png');
                 break;
-            case 'JC':
-                ret = require('../assets/img/cards/JC.png');
+            case '11C':
+                ret = require('../assets/img/cards/11C.png');
                 break;
-            case 'JD':
-                ret = require('../assets/img/cards/JD.png');
+            case '11D':
+                ret = require('../assets/img/cards/11D.png');
                 break;
-            case 'JH':
-                ret = require('../assets/img/cards/JH.png');
+            case '11H':
+                ret = require('../assets/img/cards/11H.png');
                 break;
-            case 'JS':
-                ret = require('../assets/img/cards/JS.png');
+            case '11S':
+                ret = require('../assets/img/cards/11S.png');
                 break;
-            case 'QC':
-                ret = require('../assets/img/cards/QC.png');
+            case '12C':
+                ret = require('../assets/img/cards/12C.png');
                 break;
-            case 'QD':
-                ret = require('../assets/img/cards/QD.png');
+            case '12D':
+                ret = require('../assets/img/cards/12D.png');
                 break;
-            case 'QH':
-                ret = require('../assets/img/cards/QH.png');
+            case '12H':
+                ret = require('../assets/img/cards/12H.png');
                 break;
-            case 'QS':
-                ret = require('../assets/img/cards/QS.png');
+            case '12S':
+                ret = require('../assets/img/cards/12S.png');
                 break;
-            case 'KC':
-                ret = require('../assets/img/cards/KC.png');
+            case '13C':
+                ret = require('../assets/img/cards/13C.png');
                 break;
-            case 'KD':
-                ret = require('../assets/img/cards/KD.png');
+            case '13D':
+                ret = require('../assets/img/cards/13D.png');
                 break;
-            case 'KH':
-                ret = require('../assets/img/cards/KH.png');
+            case '13H':
+                ret = require('../assets/img/cards/13H.png');
                 break;
-            case 'KS':
-                ret = require('../assets/img/cards/KS.png');
-                break;
-            case 'AC':
-                ret = require('../assets/img/cards/AC.png');
-                break;
-            case 'AD':
-                ret = require('../assets/img/cards/AD.png');
-                break;
-            case 'AH':
-                ret = require('../assets/img/cards/AH.png');
-                break;
-            case 'AS':
-                ret = require('../assets/img/cards/AS.png');
+            case '13S':
+                ret = require('../assets/img/cards/13S.png');
                 break;
             default:
                 throw new Error(card + ' does not exist');
@@ -192,7 +217,7 @@ class Card extends Component {
      */
     getHeight() {
         let nextCard = this.props.children;
-        let height = 72.6;
+        let height = 73;
         while (nextCard) {
             height += 20;
             nextCard = nextCard.props.children;
@@ -219,21 +244,18 @@ class Card extends Component {
             source = this.getRequire(this.props.value);
         }
 
-        // Style
-        const style = {
-            position: 'absolute',
-            top: this.props.offset ? Number(this.props.offset) : 0,
-            left: 0
-        };
+        // If selected
+        const style = this.props.isSelected ? [this.style.view, this.style.imageSelected] : this.style.view;
 
         return (
-            <TouchableOpacity disabled={!this.props.onPress || (this.props.hidden && Boolean(this.props.children))}
-                              onPress={this.handlePress} activeOpacity={0.6} style={style}>
-                <View style={{height: this.getHeight()}}>
-                    <Image source={source} style={Object.assign({width: 50, height: 72.6}, this.props.style)}/>
+            <TouchableWithoutFeedback
+                disabled={!this.props.onPress || (this.props.hidden && Boolean(this.props.children))}
+                onPress={this.handlePress}>
+                <View style={[style, {height: this.getHeight()}]}>
+                    <Image source={source} style={this.style.image}/>
                     {this.props.children}
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         );
     }
 }

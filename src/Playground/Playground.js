@@ -1,28 +1,32 @@
 import React, { Component } from 'react';
-import { AppRegistry, View } from 'react-native';
+import { AppRegistry, View, StyleSheet } from 'react-native';
 
 import CardsStack from '../CardsStack';
 
+/**
+ * The playground
+ */
 class Playground extends Component {
     constructor(props) {
         super(props);
 
-        /*
-         * Define the hidden cards
-         */
-        let hiddenCards = {};
-        for (let i = 1; i <= 7; i++) {
-            let column = this.props['column' + i].slice(0);
-            column.splice(-1, 1);
-            column.reduce(function (result, item) {
-                result[item] = 1;
-                return result;
-            }, hiddenCards);
-        }
+        // Style
+        this.style = this.getStyle();
+    }
 
-        this.state = {
-            hiddenCards: hiddenCards
-        };
+    /**
+     * Get the component style
+     * @returns {*}
+     */
+    getStyle() {
+        return StyleSheet.create({
+            view: {
+                flex: 7,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                backgroundColor: '#34A249'
+            }
+        });
     }
 
     render() {
@@ -30,19 +34,13 @@ class Playground extends Component {
         for (let i = 1; i <= 7; i++) {
             columns.push(<CardsStack key={i}
                                      cards={this.props['column' + i]}
-                                     hiddenCards={this.state.hiddenCards}
-                                     offset={20}/>);
+                                     offset={20}
+                                     cardSelected={this.props.cardSelected}
+                                     onPress={(card) => this.props.onPress(card, 'column' + i)}/>);
         }
 
-        const style = {
-            flex: 7,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            backgroundColor: '#34A249'
-        };
-
         return (
-            <View style={style}>
+            <View style={this.style.view}>
                 {columns}
             </View>
         );
