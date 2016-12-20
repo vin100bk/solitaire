@@ -126,6 +126,12 @@ class Solitaire extends Component {
         });
     }
 
+    /**
+     * Is the move valid for playground?
+     * @param card1
+     * @param card2
+     * @returns {boolean}
+     */
     isValidPlayground(card1, card2) {
         if(card2 === null) {
             // Empty column
@@ -138,6 +144,30 @@ class Solitaire extends Component {
             const subCard2 = parseInt(card2.slice(0, -1));
 
             return color1 !== color2 && subCard1 === subCard2 - 1;
+        }
+    }
+
+    /**
+     * Is the move valid for AS columns?
+     * @param card1
+     * @param card2
+     * @param deck
+     * @returns {boolean}
+     */
+    isValidAs(card1, card2, deck) {
+        const deckColor = deck.substr(0, 1);
+        if(new RegExp(deckColor + '$', 'i').test(card1)) {
+            if(card2 === null) {
+                // Empty stack
+                return /^1[DHCS]$/.test(card1);
+            } else {
+                const subCard1 = parseInt(card1.slice(0, -1));
+                const subCard2 = parseInt(card2.slice(0, -1));
+
+                return subCard1 - 1 === subCard2;
+            }
+        } else {
+            return false;
         }
     }
 
@@ -179,6 +209,10 @@ class Solitaire extends Component {
                 this.unSelectCard();
             } else if (['hearts', 'diamonds', 'clubs', 'spades'].indexOf(deck) !== -1) {
                 // AS
+                if (this.isValidAs(this.state.cardSelected, card, deck)) {
+                    this.moveCard(this.state.cardSelected, this.deckCardSelected, card, deck);
+                }
+
                 this.unSelectCard();
             } else {
                 throw new Error('Error during the game, unknown target deck=' + deck);

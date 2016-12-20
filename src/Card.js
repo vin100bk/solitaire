@@ -34,7 +34,7 @@ class Card extends Component {
                 height: 73
             },
             imageSelected: {
-                opacity: 0.5
+                opacity: 0.8
             }
         });
     }

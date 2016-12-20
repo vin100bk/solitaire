@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, Image, StyleSheet } from 'react-native';
+import { AppRegistry, View, Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 /**
  * When a stack is empty
@@ -7,6 +7,9 @@ import { AppRegistry, View, Image, StyleSheet } from 'react-native';
 class EmptyStack extends Component {
     constructor(props) {
         super(props);
+
+        // Handlers
+        this.handlePress = this.handlePress.bind(this);
 
         // Style
         this.style = this.getStyle();
@@ -20,10 +23,17 @@ class EmptyStack extends Component {
         return StyleSheet.create({
             image: {
                 width: 50,
-                height: 72.6,
+                height: 73,
                 opacity: 0.1
             }
         });
+    }
+
+    /**
+     * When you press on it
+     */
+    handlePress() {
+        this.props.onPress(null);
     }
 
     render() {
@@ -46,7 +56,9 @@ class EmptyStack extends Component {
         }
 
         return (
-            <Image source={picture} style={[this.style.image, this.props.style]}/>
+            <TouchableWithoutFeedback onPress={this.handlePress}>
+                <Image source={picture} style={[this.style.image, this.props.style]}/>
+            </TouchableWithoutFeedback>
         );
     }
 }
