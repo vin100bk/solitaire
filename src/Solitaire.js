@@ -66,6 +66,15 @@ class Solitaire extends Component {
             column5: column5,
             column6: column6,
             column7: column7,
+            nbHiddenCards: {
+                column1: 0,
+                column2: 1,
+                column3: 2,
+                column4: 3,
+                column5: 4,
+                column6: 5,
+                column7: 6
+            },
             hearts: [],
             diamonds: [],
             clubs: [],
@@ -205,6 +214,11 @@ class Solitaire extends Component {
             prevState[deck1] = deck1Copy;
             prevState[deck2] = prevState[deck2].concat(cards);
 
+            // Flip the card if necessary
+            if (prevState.nbHiddenCards[deck1] === prevState[deck1].length) {
+                prevState.nbHiddenCards[deck1]--;
+            }
+
             return prevState;
         }, () => {
             if (this.isFinished()) {
@@ -301,6 +315,7 @@ class Solitaire extends Component {
                             column5={this.state.column5}
                             column6={this.state.column6}
                             column7={this.state.column7}
+                            nbHiddenCards={this.state.nbHiddenCards}
                             cardSelected={this.state.cardSelected}
                             onPress={this.handleSelectCard}/>
 

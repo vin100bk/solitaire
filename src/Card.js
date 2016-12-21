@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { AppRegistry, Animated, View, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 
+var imgStyle = {
+    width: 50,
+    height: 73
+};
+
 /**
  * Represent a card
  */
@@ -9,7 +14,7 @@ class Card extends Component {
         super(props);
 
         // Store the back card. Performance reasons
-        this.back = require('../assets/img/cards/back.png');
+        this.back = <Image source={require('../assets/img/cards/back.png')} style={imgStyle}/>;
 
         // Handlers
         this.handlePress = this.handlePress.bind(this);
@@ -40,175 +45,16 @@ class Card extends Component {
     }
 
     /**
-     * Get the require associated to the card
+     * Get the image
      * @param card
      * @returns {*}
      */
-    getRequire(card) {
-        let ret;
-        switch (card) {
-            case '1C':
-                ret = require('../assets/img/cards/1C.png');
-                break;
-            case '1D':
-                ret = require('../assets/img/cards/1D.png');
-                break;
-            case '1H':
-                ret = require('../assets/img/cards/1H.png');
-                break;
-            case '1S':
-                ret = require('../assets/img/cards/1S.png');
-                break;
-            case '2C':
-                ret = require('../assets/img/cards/2C.png');
-                break;
-            case '2D':
-                ret = require('../assets/img/cards/2D.png');
-                break;
-            case '2H':
-                ret = require('../assets/img/cards/2H.png');
-                break;
-            case '2S':
-                ret = require('../assets/img/cards/2S.png');
-                break;
-            case '3C':
-                ret = require('../assets/img/cards/3C.png');
-                break;
-            case '3D':
-                ret = require('../assets/img/cards/3D.png');
-                break;
-            case '3H':
-                ret = require('../assets/img/cards/3H.png');
-                break;
-            case '3S':
-                ret = require('../assets/img/cards/3S.png');
-                break;
-            case '4C':
-                ret = require('../assets/img/cards/4C.png');
-                break;
-            case '4D':
-                ret = require('../assets/img/cards/4D.png');
-                break;
-            case '4H':
-                ret = require('../assets/img/cards/4H.png');
-                break;
-            case '4S':
-                ret = require('../assets/img/cards/4S.png');
-                break;
-            case '5C':
-                ret = require('../assets/img/cards/5C.png');
-                break;
-            case '5D':
-                ret = require('../assets/img/cards/5D.png');
-                break;
-            case '5H':
-                ret = require('../assets/img/cards/5H.png');
-                break;
-            case '5S':
-                ret = require('../assets/img/cards/5S.png');
-                break;
-            case '6C':
-                ret = require('../assets/img/cards/6C.png');
-                break;
-            case '6D':
-                ret = require('../assets/img/cards/6D.png');
-                break;
-            case '6H':
-                ret = require('../assets/img/cards/6H.png');
-                break;
-            case '6S':
-                ret = require('../assets/img/cards/6S.png');
-                break;
-            case '7C':
-                ret = require('../assets/img/cards/7C.png');
-                break;
-            case '7D':
-                ret = require('../assets/img/cards/7D.png');
-                break;
-            case '7H':
-                ret = require('../assets/img/cards/7H.png');
-                break;
-            case '7S':
-                ret = require('../assets/img/cards/7S.png');
-                break;
-            case '8C':
-                ret = require('../assets/img/cards/8C.png');
-                break;
-            case '8D':
-                ret = require('../assets/img/cards/8D.png');
-                break;
-            case '8H':
-                ret = require('../assets/img/cards/8H.png');
-                break;
-            case '8S':
-                ret = require('../assets/img/cards/8S.png');
-                break;
-            case '9C':
-                ret = require('../assets/img/cards/9C.png');
-                break;
-            case '9D':
-                ret = require('../assets/img/cards/9D.png');
-                break;
-            case '9H':
-                ret = require('../assets/img/cards/9H.png');
-                break;
-            case '9S':
-                ret = require('../assets/img/cards/9S.png');
-                break;
-            case '10C':
-                ret = require('../assets/img/cards/10C.png');
-                break;
-            case '10D':
-                ret = require('../assets/img/cards/10D.png');
-                break;
-            case '10H':
-                ret = require('../assets/img/cards/10H.png');
-                break;
-            case '10S':
-                ret = require('../assets/img/cards/10S.png');
-                break;
-            case '11C':
-                ret = require('../assets/img/cards/11C.png');
-                break;
-            case '11D':
-                ret = require('../assets/img/cards/11D.png');
-                break;
-            case '11H':
-                ret = require('../assets/img/cards/11H.png');
-                break;
-            case '11S':
-                ret = require('../assets/img/cards/11S.png');
-                break;
-            case '12C':
-                ret = require('../assets/img/cards/12C.png');
-                break;
-            case '12D':
-                ret = require('../assets/img/cards/12D.png');
-                break;
-            case '12H':
-                ret = require('../assets/img/cards/12H.png');
-                break;
-            case '12S':
-                ret = require('../assets/img/cards/12S.png');
-                break;
-            case '13C':
-                ret = require('../assets/img/cards/13C.png');
-                break;
-            case '13D':
-                ret = require('../assets/img/cards/13D.png');
-                break;
-            case '13H':
-                ret = require('../assets/img/cards/13H.png');
-                break;
-            case '13S':
-                ret = require('../assets/img/cards/13S.png');
-                break;
-            default:
-                throw new Error(card + ' does not exist');
+    getImage(card) {
+        if (card in Card.images) {
+            return Card.images[card];
+        } else {
+            throw new Error(card + ' does not exist');
         }
-
-        return ret;
-
     }
 
     /**
@@ -235,13 +81,13 @@ class Card extends Component {
 
     render() {
         // Card
-        let source;
+        let img;
         if (this.props.hidden) {
             // Hidden card
-            source = this.back;
+            img = this.back;
         } else {
             // Shown card
-            source = this.getRequire(this.props.value);
+            img = this.getImage(this.props.value);
         }
 
         // If selected
@@ -252,12 +98,70 @@ class Card extends Component {
                 disabled={!this.props.onPress || (this.props.hidden && Boolean(this.props.children))}
                 onPress={this.handlePress}>
                 <View style={[style, {height: this.getHeight()}]}>
-                    <Image source={source} style={this.style.image}/>
+                    {img}
                     {this.props.children}
                 </View>
             </TouchableWithoutFeedback>
         );
     }
 }
+
+/**
+ * Store it for performance reasons
+ */
+Card.images = {
+    '1C': <Image source={require('../assets/img/cards/1C.png')} style={imgStyle}/>,
+    '1D': <Image source={require('../assets/img/cards/1D.png')} style={imgStyle}/>,
+    '1H': <Image source={require('../assets/img/cards/1H.png')} style={imgStyle}/>,
+    '1S': <Image source={require('../assets/img/cards/1S.png')} style={imgStyle}/>,
+    '2C': <Image source={require('../assets/img/cards/2C.png')} style={imgStyle}/>,
+    '2D': <Image source={require('../assets/img/cards/2D.png')} style={imgStyle}/>,
+    '2H': <Image source={require('../assets/img/cards/2H.png')} style={imgStyle}/>,
+    '2S': <Image source={require('../assets/img/cards/2S.png')} style={imgStyle}/>,
+    '3C': <Image source={require('../assets/img/cards/3C.png')} style={imgStyle}/>,
+    '3D': <Image source={require('../assets/img/cards/3D.png')} style={imgStyle}/>,
+    '3H': <Image source={require('../assets/img/cards/3H.png')} style={imgStyle}/>,
+    '3S': <Image source={require('../assets/img/cards/3S.png')} style={imgStyle}/>,
+    '4C': <Image source={require('../assets/img/cards/4C.png')} style={imgStyle}/>,
+    '4D': <Image source={require('../assets/img/cards/4D.png')} style={imgStyle}/>,
+    '4H': <Image source={require('../assets/img/cards/4H.png')} style={imgStyle}/>,
+    '4S': <Image source={require('../assets/img/cards/4S.png')} style={imgStyle}/>,
+    '5C': <Image source={require('../assets/img/cards/5C.png')} style={imgStyle}/>,
+    '5D': <Image source={require('../assets/img/cards/5D.png')} style={imgStyle}/>,
+    '5H': <Image source={require('../assets/img/cards/5H.png')} style={imgStyle}/>,
+    '5S': <Image source={require('../assets/img/cards/5S.png')} style={imgStyle}/>,
+    '6C': <Image source={require('../assets/img/cards/6C.png')} style={imgStyle}/>,
+    '6D': <Image source={require('../assets/img/cards/6D.png')} style={imgStyle}/>,
+    '6H': <Image source={require('../assets/img/cards/6H.png')} style={imgStyle}/>,
+    '6S': <Image source={require('../assets/img/cards/6S.png')} style={imgStyle}/>,
+    '7C': <Image source={require('../assets/img/cards/7C.png')} style={imgStyle}/>,
+    '7D': <Image source={require('../assets/img/cards/7D.png')} style={imgStyle}/>,
+    '7H': <Image source={require('../assets/img/cards/7H.png')} style={imgStyle}/>,
+    '7S': <Image source={require('../assets/img/cards/7S.png')} style={imgStyle}/>,
+    '8C': <Image source={require('../assets/img/cards/8C.png')} style={imgStyle}/>,
+    '8D': <Image source={require('../assets/img/cards/8D.png')} style={imgStyle}/>,
+    '8H': <Image source={require('../assets/img/cards/8H.png')} style={imgStyle}/>,
+    '8S': <Image source={require('../assets/img/cards/8S.png')} style={imgStyle}/>,
+    '9C': <Image source={require('../assets/img/cards/9C.png')} style={imgStyle}/>,
+    '9D': <Image source={require('../assets/img/cards/9D.png')} style={imgStyle}/>,
+    '9H': <Image source={require('../assets/img/cards/9H.png')} style={imgStyle}/>,
+    '9S': <Image source={require('../assets/img/cards/9S.png')} style={imgStyle}/>,
+    '10C': <Image source={require('../assets/img/cards/10C.png')} style={imgStyle}/>,
+    '10D': <Image source={require('../assets/img/cards/10D.png')} style={imgStyle}/>,
+    '10H': <Image source={require('../assets/img/cards/10H.png')} style={imgStyle}/>,
+    '10S': <Image source={require('../assets/img/cards/10S.png')} style={imgStyle}/>,
+    '11C': <Image source={require('../assets/img/cards/11C.png')} style={imgStyle}/>,
+    '11D': <Image source={require('../assets/img/cards/11D.png')} style={imgStyle}/>,
+    '11H': <Image source={require('../assets/img/cards/11H.png')} style={imgStyle}/>,
+    '11S': <Image source={require('../assets/img/cards/11S.png')} style={imgStyle}/>,
+    '12C': <Image source={require('../assets/img/cards/12C.png')} style={imgStyle}/>,
+    '12D': <Image source={require('../assets/img/cards/12D.png')} style={imgStyle}/>,
+    '12H': <Image source={require('../assets/img/cards/12H.png')} style={imgStyle}/>,
+    '12S': <Image source={require('../assets/img/cards/12S.png')} style={imgStyle}/>,
+    '13C': <Image source={require('../assets/img/cards/13C.png')} style={imgStyle}/>,
+    '13D': <Image source={require('../assets/img/cards/13D.png')} style={imgStyle}/>,
+    '13H': <Image source={require('../assets/img/cards/13H.png')} style={imgStyle}/>,
+    '13S': <Image source={require('../assets/img/cards/13S.png')} style={imgStyle}/>
+};
 
 export default Card;

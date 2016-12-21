@@ -34,6 +34,7 @@ class Playground extends Component {
         for (let i = 1; i <= 7; i++) {
             columns.push(<CardsStack key={i}
                                      cards={this.props['column' + i]}
+                                     nbHiddenCards={this.props.nbHiddenCards['column' + i]}
                                      offset={20}
                                      cardSelected={this.props.cardSelected}
                                      onPress={(card) => this.props.onPress(card, 'column' + i)}/>);

@@ -11,9 +11,6 @@ class CardsStack extends Component {
     constructor(props) {
         super(props);
 
-        // Set the number of cards to hide
-        this.nbHiddenCards = this.props.cards.length - 1;
-
         // Style
         this.style = this.getStyle();
     }
@@ -27,13 +24,6 @@ class CardsStack extends Component {
             return nextProps.cards.indexOf(this.props.cardSelected) !== -1 || nextProps.cards.indexOf(nextProps.cardSelected) !== -1;
         } else {
             return false;
-        }
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        // Flip the last card if hidden
-        if (this.props.cards.length !== nextProps.cards.length && this.nbHiddenCards === nextProps.cards.length) {
-            this.nbHiddenCards--;
         }
     }
 
@@ -58,7 +48,7 @@ class CardsStack extends Component {
         if (this.props.cards[index]) {
             return <Card key={this.props.cards[index]}
                          value={this.props.cards[index]}
-                         hidden={this.props.allHidden || (!this.props.allShown && index < this.nbHiddenCards)}
+                         hidden={this.props.allHidden || (!this.props.allShown && index < this.props.nbHiddenCards)}
                          offset={this.props.offset}
                          isSelected={this.props.cards[index] === this.props.cardSelected}
                          onPress={this.props.onPress}>
