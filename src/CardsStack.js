@@ -19,7 +19,7 @@ class CardsStack extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.cards.length !== nextProps.cards.length) {
+        if (this.props.cards !== nextProps.cards) {
             return true;
         }
 
