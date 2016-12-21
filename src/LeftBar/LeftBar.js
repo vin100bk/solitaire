@@ -3,6 +3,7 @@ import { AppRegistry, View, StyleSheet } from 'react-native';
 
 import CardsStack from '../CardsStack';
 import EmptyDeck from './EmptyDeck';
+import Buttons from './Buttons';
 
 /**
  * Left bar
@@ -57,6 +58,8 @@ class LeftBar extends Component {
                             style={this.style.stacks}
                             cardSelected={this.props.cardSelected}
                             onPress={(card) => this.props.onPress(card, 'shownDeck')}/>
+
+                <Buttons onNewGame={this.props.onNewGame}/>
             </View>
         );
     }
