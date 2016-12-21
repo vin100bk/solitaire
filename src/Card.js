@@ -65,7 +65,7 @@ class Card extends Component {
         let nextCard = this.props.children;
         let height = 73;
         while (nextCard) {
-            height += 20;
+            height += this.props.offset;
             nextCard = nextCard.props.children;
         }
 
@@ -91,7 +91,12 @@ class Card extends Component {
         }
 
         // If selected
-        const style = this.props.isSelected ? [this.style.view, this.style.imageSelected] : this.style.view;
+        let style;
+        if (this.props.isSelected) {
+            style = [this.style.view, this.style.imageSelected, {top: this.props.offset ? Number(this.props.offset) : 0}];
+        } else {
+            style = [this.style.view, {top: this.props.offset ? Number(this.props.offset) : 0}];
+        }
 
         return (
             <TouchableWithoutFeedback
