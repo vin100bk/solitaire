@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, StyleSheet } from 'react-native';
+import { AppRegistry, View, StyleSheet, Alert } from 'react-native';
 
 import LeftBar from './LeftBar/LeftBar';
 import Playground from './Playground/Playground';
@@ -183,6 +183,14 @@ class Solitaire extends Component {
     }
 
     /**
+     * Is the game finished?
+     * @returns {boolean}
+     */
+    isFinished() {
+        return this.state.hearts.length + this.state.diamonds.length + this.state.clubs.length + this.state.spades.length === 52;
+    }
+
+    /**
      * Move card1 under card2
      * @param card1
      * @param deck1
@@ -198,6 +206,16 @@ class Solitaire extends Component {
             prevState[deck2] = prevState[deck2].concat(cards);
 
             return prevState;
+        }, () => {
+            if (this.isFinished()) {
+                Alert.alert(
+                    'Congratulations !',
+                    'You finished the game !',
+                    [
+                        {text: 'New game', onPress: () => this.setState(this.getInitStatus())}
+                    ]
+                );
+            }
         });
     }
 
