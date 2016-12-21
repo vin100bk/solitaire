@@ -12,39 +12,15 @@ class Solitaire extends Component {
     constructor(props) {
         super(props);
 
-        // Compute the stacks
-        let cards = this.getCards();
-        const column1 = cards.splice(0, 1);
-        const column2 = cards.splice(0, 2);
-        const column3 = cards.splice(0, 3);
-        const column4 = cards.splice(0, 4);
-        const column5 = cards.splice(0, 5);
-        const column6 = cards.splice(0, 6);
-        const column7 = cards.splice(0, 7);
-
         // State
-        this.state = {
-            deck: cards,
-            shownDeck: [],
-            column1: column1,
-            column2: column2,
-            column3: column3,
-            column4: column4,
-            column5: column5,
-            column6: column6,
-            column7: column7,
-            hearts: [],
-            diamonds: [],
-            clubs: [],
-            spades: [],
-            cardSelected: null
-        };
+        this.state = this.getInitStatus();
 
         // Handlers
         this.handleSelectCard = this.handleSelectCard.bind(this);
         this.handlePressDeck = this.handlePressDeck.bind(this);
         this.handlePressDeck = this.handlePressDeck.bind(this);
         this.handleResetDeck = this.handleResetDeck.bind(this);
+        this.handleNewGame = this.handleNewGame.bind(this);
 
         // Store the deck of the card selected
         this.deckCardSelected = null;
@@ -64,6 +40,38 @@ class Solitaire extends Component {
                 flexDirection: 'row'
             }
         });
+    }
+
+    /**
+     * Get the initial status
+     */
+    getInitStatus() {
+        // Compute the stacks
+        let cards = this.getCards();
+        const column1 = cards.splice(0, 1);
+        const column2 = cards.splice(0, 2);
+        const column3 = cards.splice(0, 3);
+        const column4 = cards.splice(0, 4);
+        const column5 = cards.splice(0, 5);
+        const column6 = cards.splice(0, 6);
+        const column7 = cards.splice(0, 7);
+
+        return {
+            deck: cards,
+            shownDeck: [],
+            column1: column1,
+            column2: column2,
+            column3: column3,
+            column4: column4,
+            column5: column5,
+            column6: column6,
+            column7: column7,
+            hearts: [],
+            diamonds: [],
+            clubs: [],
+            spades: [],
+            cardSelected: null
+        };
     }
 
     /**
@@ -227,26 +235,14 @@ class Solitaire extends Component {
     }
 
     /**
-     * When press on the deck
-     */
-    handlePressDeck() {
-        this.unSelectCard();
-    }
-
-    /**
      * When you press on the deck
      * @param value
      */
     handlePressDeck(value) {
         this.setState((prevState, props) => {
-            let v = prevState.deck.splice(-1, 1)[0];
-
-            // Check the values match
-            if (v !== value) {
-                throw new Error('Error during the game, mismatching values (v=' + v + ', value=' + value + ')');
-            }
-
-            prevState.shownDeck.push(value);
+            prevState.deck = prevState.deck.slice(0, -1);
+            prevState.cardSelected = null;
+            prevState.shownDeck = prevState.shownDeck.concat(value);
         });
     }
 
@@ -262,6 +258,13 @@ class Solitaire extends Component {
         });
     }
 
+    /**
+     * Start a new game
+     */
+    handleNewGame() {
+        this.setState(this.getInitStatus());
+    }
+
     render() {
         return (
             <View style={this.style.view}>
@@ -270,7 +273,9 @@ class Solitaire extends Component {
                          cardSelected={this.state.cardSelected}
                          onPress={this.handleSelectCard}
                          onPressDeck={this.handlePressDeck}
-                         onResetDeck={this.handleResetDeck}/>
+                         onResetDeck={this.handleResetDeck}
+                         onNewGame={this.handleNewGame}/>
+
                 <Playground column1={this.state.column1}
                             column2={this.state.column2}
                             column3={this.state.column3}
@@ -280,6 +285,7 @@ class Solitaire extends Component {
                             column7={this.state.column7}
                             cardSelected={this.state.cardSelected}
                             onPress={this.handleSelectCard}/>
+
                 <RightBar hearts={this.state.hearts}
                           diamonds={this.state.diamonds}
                           clubs={this.state.clubs}

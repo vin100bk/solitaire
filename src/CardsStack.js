@@ -18,6 +18,18 @@ class CardsStack extends Component {
         this.style = this.getStyle();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.cards.length !== nextProps.cards.length) {
+            return true;
+        }
+
+        if (this.props.cardSelected !== nextProps.cardSelected) {
+            return nextProps.cards.indexOf(this.props.cardSelected) !== -1 || nextProps.cards.indexOf(nextProps.cardSelected) !== -1;
+        } else {
+            return false;
+        }
+    }
+
     componentWillUpdate(nextProps, nextState) {
         // Flip the last card if hidden
         if (this.props.cards.length !== nextProps.cards.length && this.nbHiddenCards === nextProps.cards.length) {
