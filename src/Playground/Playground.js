@@ -36,6 +36,7 @@ class Playground extends Component {
                                      cards={this.props['column' + i]}
                                      nbHiddenCards={this.props.nbHiddenCards['column' + i]}
                                      offset={20}
+                                     adjustableOffset={true}
                                      cardSelected={this.props.cardSelected}
                                      onPress={(card) => this.props.onPress(card, 'column' + i)}/>);
         }
