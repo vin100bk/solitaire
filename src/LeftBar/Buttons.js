@@ -28,7 +28,7 @@ class Buttons extends Component {
                 alignItems: 'stretch'
             },
             button: {
-                marginBottom: 5
+                marginBottom: 10
             }
         });
     }
