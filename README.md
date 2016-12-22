@@ -2,8 +2,7 @@
 Application of the famous game "Solitaire"
 
 # Installation
-* Android: the apk is available in android/app/build/outputs/apk/app-release.apk
-* iOS: no installation file available yet
+The game is not available on the stores. You need to compile it on your own.
 
 # Examples
 ![Screenshot 1](readme/screenshot1.png)
