@@ -98,10 +98,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("solitaire.keystore")
-            storePassword "HUaq4f"
-            keyAlias "solitaire"
-            keyPassword "HUaq4f"
+            storeFile file(SOLITAIRE_RELEASE_STORE_FILE)
+            storePassword SOLITAIRE_RELEASE_STORE_PASSWORD
+            keyAlias SOLITAIRE_RELEASE_KEY_ALIAS
+            keyPassword SOLITAIRE_RELEASE_KEY_PASSWORD
         }
     }
     splits {
