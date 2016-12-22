@@ -221,6 +221,7 @@ class Solitaire extends Component {
             // Unselect the card
             prevState.cardSelected = null;
             // Store the last state
+            prevState.lastState = null;
             prevState.lastState = JSON.stringify(prevState);
             // Move the cards
             let deck1Copy = prevState[deck1].slice();
@@ -289,6 +290,7 @@ class Solitaire extends Component {
             // Unselect the card
             prevState.cardSelected = null;
             // Store the last state
+            prevState.lastState = null;
             prevState.lastState = JSON.stringify(prevState);
             prevState.deck = prevState.deck.slice(0, -1);
             prevState.shownDeck = prevState.shownDeck.concat(value);
