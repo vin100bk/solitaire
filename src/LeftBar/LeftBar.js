@@ -31,6 +31,10 @@ class LeftBar extends Component {
             stacks: {
                 marginTop: 10,
                 flex: 1
+            },
+            buttons: {
+                flex: 1,
+                alignSelf: 'stretch'
             }
         });
     }
@@ -59,7 +63,10 @@ class LeftBar extends Component {
                             cardSelected={this.props.cardSelected}
                             onPress={(card) => this.props.onPress(card, 'shownDeck')}/>
 
-                <Buttons onNewGame={this.props.onNewGame}/>
+                <Buttons lastState={this.props.lastState}
+                         style={this.style.buttons}
+                         onNewGame={this.props.onNewGame}
+                         onUndo={this.props.onUndo}/>
             </View>
         );
     }

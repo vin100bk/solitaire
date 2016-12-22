@@ -21,6 +21,7 @@ class Solitaire extends Component {
         this.handlePressDeck = this.handlePressDeck.bind(this);
         this.handleResetDeck = this.handleResetDeck.bind(this);
         this.handleNewGame = this.handleNewGame.bind(this);
+        this.handleUndo = this.handleUndo.bind(this);
 
         // Store the deck of the card selected
         this.deckCardSelected = null;
@@ -79,7 +80,8 @@ class Solitaire extends Component {
             diamonds: [],
             clubs: [],
             spades: [],
-            cardSelected: null
+            cardSelected: null,
+            lastState: null
         };
     }
 
@@ -196,7 +198,15 @@ class Solitaire extends Component {
      * @returns {boolean}
      */
     isFinished() {
-        return this.state.hearts.length + this.state.diamonds.length + this.state.clubs.length + this.state.spades.length === 52;
+        return this.state.deck.length +
+            this.state.shownDeck.length +
+            this.state.nbHiddenCards.column1.length +
+            this.state.nbHiddenCards.column2.length +
+            this.state.nbHiddenCards.column3.length +
+            this.state.nbHiddenCards.column4.length +
+            this.state.nbHiddenCards.column5.length +
+            this.state.nbHiddenCards.column6.length +
+            this.state.nbHiddenCards.column7.length === 0;
     }
 
     /**
@@ -208,6 +218,10 @@ class Solitaire extends Component {
      */
     moveCard(card1, deck1, card2, deck2) {
         this.setState((prevState, props) => {
+            // Unselect the card
+            prevState.cardSelected = null;
+            // Store the last state
+            prevState.lastState = JSON.stringify(prevState);
             // Move the cards
             let deck1Copy = prevState[deck1].slice();
             const cards = deck1Copy.splice(prevState[deck1].indexOf(card1), prevState[deck1].length);
@@ -216,7 +230,7 @@ class Solitaire extends Component {
 
             // Flip the card if necessary
             if (prevState.nbHiddenCards[deck1] === prevState[deck1].length) {
-                prevState.nbHiddenCards[deck1]--;
+                prevState.nbHiddenCards[deck1] = prevState.nbHiddenCards[deck1] - 1;
             }
 
             return prevState;
@@ -272,8 +286,11 @@ class Solitaire extends Component {
      */
     handlePressDeck(value) {
         this.setState((prevState, props) => {
-            prevState.deck = prevState.deck.slice(0, -1);
+            // Unselect the card
             prevState.cardSelected = null;
+            // Store the last state
+            prevState.lastState = JSON.stringify(prevState);
+            prevState.deck = prevState.deck.slice(0, -1);
             prevState.shownDeck = prevState.shownDeck.concat(value);
         });
     }
@@ -297,16 +314,27 @@ class Solitaire extends Component {
         this.setState(this.getInitStatus());
     }
 
+    /**
+     * Undo the last action
+     */
+    handleUndo() {
+        this.setState((prevState, props) => {
+            return JSON.parse(prevState.lastState);
+        });
+    }
+
     render() {
         return (
             <View style={this.style.view}>
                 <LeftBar cards={this.state.deck}
                          shownCards={this.state.shownDeck}
                          cardSelected={this.state.cardSelected}
+                         lastState={this.state.lastState}
                          onPress={this.handleSelectCard}
                          onPressDeck={this.handlePressDeck}
                          onResetDeck={this.handleResetDeck}
-                         onNewGame={this.handleNewGame}/>
+                         onNewGame={this.handleNewGame}
+                         onUndo={this.handleUndo}/>
 
                 <Playground column1={this.state.column1}
                             column2={this.state.column2}

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, StyleSheet, Button, Alert } from 'react-native';
+import { AppRegistry, View, Alert, StyleSheet } from 'react-native';
 
-import CardsStack from '../CardsStack';
-import EmptyDeck from './EmptyDeck';
+import ButtonIcon from '../ButtonIcon';
 
 /**
  * Buttons
@@ -25,12 +24,11 @@ class Buttons extends Component {
     getStyle() {
         return StyleSheet.create({
             view: {
-                flex: 1,
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
+                alignItems: 'stretch'
             },
-            stacks: {
-                marginTop: 10,
-                flex: 1
+            button: {
+                marginBottom: 5
             }
         });
     }
@@ -54,12 +52,22 @@ class Buttons extends Component {
 
     render() {
         return (
-            <View style={this.style.view}>
-                <Button
+            <View style={[this.style.view, this.props.style]}>
+                {this.props.lastState &&
+                <ButtonIcon
+                    onPress={this.props.onUndo}
+                    title="Undo"
+                    icon="undo"
+                    backgroundActive="#3B8B4B"
+                    style={this.style.button}/>
+                }
+
+                <ButtonIcon
                     onPress={this.handleNewGame}
-                    title="New game"
-                    color="#000"
-                    accessibilityLabel="Start a new game"/>
+                    title="New"
+                    icon="star"
+                    backgroundActive="#3B8B4B"
+                    style={this.style.button}/>
             </View>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Animated, View, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { AppRegistry, View, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 
 /**
  * Represent am empty card. It allows the user toc lick on an empty column

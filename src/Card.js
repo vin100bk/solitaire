@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Animated, View, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { AppRegistry, View, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 
 var imgStyle = {
     width: 50,
