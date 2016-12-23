@@ -1,4 +1,4 @@
-package com.solitaire;
+package com.vin100bk.solitaire;
 
 import com.facebook.react.ReactActivity;
 
