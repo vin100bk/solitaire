@@ -200,15 +200,15 @@ class Solitaire extends Component {
      * @returns {boolean}
      */
     isFinished() {
-        return this.state.deck.length +
+        return (this.state.deck.length +
             this.state.trash.length +
-            this.state.nbHiddenCards.column1.length +
-            this.state.nbHiddenCards.column2.length +
-            this.state.nbHiddenCards.column3.length +
-            this.state.nbHiddenCards.column4.length +
-            this.state.nbHiddenCards.column5.length +
-            this.state.nbHiddenCards.column6.length +
-            this.state.nbHiddenCards.column7.length === 0;
+            this.state.nbHiddenCards.column1 +
+            this.state.nbHiddenCards.column2 +
+            this.state.nbHiddenCards.column3 +
+            this.state.nbHiddenCards.column4 +
+            this.state.nbHiddenCards.column5 +
+            this.state.nbHiddenCards.column6 +
+            this.state.nbHiddenCards.column7) === 0;
     }
 
     /**
@@ -232,7 +232,7 @@ class Solitaire extends Component {
             prevState[deck2] = prevState[deck2].concat(cards);
 
             // Flip the card if necessary
-            if (prevState.nbHiddenCards[deck1] === prevState[deck1].length) {
+            if (prevState.nbHiddenCards[deck1] > 0 && prevState.nbHiddenCards[deck1] === prevState[deck1].length) {
                 prevState.nbHiddenCards[deck1] = prevState.nbHiddenCards[deck1] - 1;
             }
 
