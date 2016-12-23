@@ -304,7 +304,7 @@ class Solitaire extends Component {
             prevState.lastState = null;
             prevState.lastState = JSON.stringify(prevState);
             let deck = prevState.deck.slice();
-            let values = deck.splice(-Solitaire.HARD_MODE, Solitaire.HARD_MODE);
+            let values = deck.splice(-prevState.mode, prevState.mode);
             prevState.deck = deck;
             prevState.trash = prevState.trash.concat(values);
         });
@@ -316,9 +316,9 @@ class Solitaire extends Component {
     handleResetDeck() {
         this.setState((prevState, props) => {
             prevState.deck = prevState.trash.reverse();
-            // Pick the first card
-            let v = prevState.deck.splice(-1, 1)[0];
-            prevState.trash = [v];
+            // Pick the first card(s)
+            let v = prevState.deck.splice(-prevState.mode, prevState.mode);
+            prevState.trash = v;
         });
     }
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { AppRegistry, View, TouchableOpacity, StyleSheet } from 'react-native';
+
+import Icon from 'react-native-fontawesome';
 
 /**
  * When the deck is empty
@@ -7,9 +9,6 @@ import { AppRegistry, View, TouchableOpacity, Image, StyleSheet } from 'react-na
 class EmptyDeck extends Component {
     constructor(props) {
         super(props);
-
-        // Picture
-        this.picture = require('../../assets/img/reset.png');
 
         // Style
         this.style = this.getStyle();
@@ -31,6 +30,9 @@ class EmptyDeck extends Component {
                 borderWidth: 1,
                 borderColor: '#000',
                 backgroundColor: '#4B9B5B'
+            },
+            icon: {
+                fontSize: 20
             }
         });
     }
@@ -42,7 +44,7 @@ class EmptyDeck extends Component {
                                   disabled={this.props.disabled}
                                   onPress={this.props.onPress}
                                   activeOpacity={0.6}>
-                    <Image source={this.picture}/>
+                    <Icon style={this.style.icon}>refresh</Icon>
                 </TouchableOpacity>
             </View>
         );

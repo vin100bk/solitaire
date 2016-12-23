@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, StyleSheet } from 'react-native';
+import { AppRegistry, View } from 'react-native';
 
 import CardsStack from '../../CardsStack';
 
