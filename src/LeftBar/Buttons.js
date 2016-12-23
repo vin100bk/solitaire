@@ -9,10 +9,7 @@ import ButtonIcon from '../ButtonIcon';
 class Buttons extends Component {
     constructor(props) {
         super(props);
-
-        // Handlers
-        this.handleNewGame = this.handleNewGame.bind(this);
-
+        
         // Style
         this.style = this.getStyle();
     }
@@ -33,23 +30,6 @@ class Buttons extends Component {
         });
     }
 
-    /**
-     * When you click on new game
-     */
-    handleNewGame() {
-        Alert.alert(
-            'New game?',
-            'Do you confirm to start a new game?',
-            [
-                {
-                    text: 'No', onPress: () => {
-                }, style: 'cancel'
-                },
-                {text: 'Yes', onPress: () => this.props.onNewGame()}
-            ]
-        )
-    }
-
     render() {
         return (
             <View style={[this.style.view, this.props.style]}>
@@ -63,7 +43,7 @@ class Buttons extends Component {
                 }
 
                 <ButtonIcon
-                    onPress={this.handleNewGame}
+                    onPress={this.props.onNewGame}
                     title="New"
                     icon="star"
                     backgroundActive="#3B8B4B"

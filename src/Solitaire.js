@@ -13,7 +13,7 @@ class Solitaire extends Component {
         super(props);
 
         // State
-        this.state = this.getInitStatus();
+        this.state = null;
 
         // Handlers
         this.handleSelectCard = this.handleSelectCard.bind(this);
@@ -45,8 +45,9 @@ class Solitaire extends Component {
 
     /**
      * Get the initial status
+     * @param mode
      */
-    getInitStatus() {
+    getInitStatus(mode) {
         // Compute the stacks
         let cards = this.getCards();
         const column1 = cards.splice(0, 1);
@@ -59,7 +60,7 @@ class Solitaire extends Component {
 
         return {
             deck: cards,
-            shownDeck: [],
+            trash: [],
             column1: column1,
             column2: column2,
             column3: column3,
@@ -81,7 +82,8 @@ class Solitaire extends Component {
             clubs: [],
             spades: [],
             cardSelected: null,
-            lastState: null
+            lastState: null,
+            mode: mode
         };
     }
 
@@ -199,7 +201,7 @@ class Solitaire extends Component {
      */
     isFinished() {
         return this.state.deck.length +
-            this.state.shownDeck.length +
+            this.state.trash.length +
             this.state.nbHiddenCards.column1.length +
             this.state.nbHiddenCards.column2.length +
             this.state.nbHiddenCards.column3.length +
@@ -238,14 +240,23 @@ class Solitaire extends Component {
         }, () => {
             if (this.isFinished()) {
                 Alert.alert(
-                    'Congratulations !',
-                    'You finished the game !',
+                    'Congratulations!',
+                    'You finished the game! Play again?',
                     [
-                        {text: 'New game', onPress: () => this.setState(this.getInitStatus())}
+                        {text: 'Easy', onPress: () => this.setState(this.getInitStatus(Solitaire.EASY_MODE))},
+                        {text: 'Hard', onPress: () => this.setState(this.getInitStatus(Solitaire.HARD_MODE))}
                     ]
                 );
             }
         });
+    }
+
+    /**
+     * Start a new game
+     * @param mode
+     */
+    newGame(mode) {
+        this.setState(this.getInitStatus(mode));
     }
 
     /**
@@ -255,7 +266,7 @@ class Solitaire extends Component {
      */
     handleSelectCard(card, deck) {
         if (this.state.cardSelected) {
-            if (deck === 'shownDeck') {
+            if (deck === 'trash') {
                 // Deck
                 this.selectedCard(card, deck);
             } else if (/^column[1-7]$/.test(deck)) {
@@ -292,8 +303,10 @@ class Solitaire extends Component {
             // Store the last state
             prevState.lastState = null;
             prevState.lastState = JSON.stringify(prevState);
-            prevState.deck = prevState.deck.slice(0, -1);
-            prevState.shownDeck = prevState.shownDeck.concat(value);
+            let deck = prevState.deck.slice();
+            let values = deck.splice(-Solitaire.HARD_MODE, Solitaire.HARD_MODE);
+            prevState.deck = deck;
+            prevState.trash = prevState.trash.concat(values);
         });
     }
 
@@ -302,18 +315,29 @@ class Solitaire extends Component {
      */
     handleResetDeck() {
         this.setState((prevState, props) => {
-            prevState.deck = prevState.shownDeck.reverse();
+            prevState.deck = prevState.trash.reverse();
             // Pick the first card
             let v = prevState.deck.splice(-1, 1)[0];
-            prevState.shownDeck = [v];
+            prevState.trash = [v];
         });
     }
 
     /**
-     * Start a new game
+     * When you click on new game
      */
     handleNewGame() {
-        this.setState(this.getInitStatus());
+        Alert.alert(
+            'New game?',
+            'Do you confirm to start a new game?',
+            [
+                {
+                    text: 'Cancel', onPress: () => {
+                }, style: 'cancel'
+                },
+                {text: 'Easy', onPress: () => this.setState(this.getInitStatus(Solitaire.EASY_MODE))},
+                {text: 'Hard', onPress: () => this.setState(this.getInitStatus(Solitaire.HARD_MODE))}
+            ]
+        )
     }
 
     /**
@@ -326,12 +350,26 @@ class Solitaire extends Component {
     }
 
     render() {
+        if (!this.state) {
+            Alert.alert(
+                'Difficulty',
+                'Choose your difficulty',
+                [
+                    {text: 'Easy', onPress: () => this.setState(this.getInitStatus(Solitaire.EASY_MODE))},
+                    {text: 'Hard', onPress: () => this.setState(this.getInitStatus(Solitaire.HARD_MODE))}
+                ]
+            );
+
+            return null;
+        }
+
         return (
             <View style={this.style.view}>
                 <LeftBar cards={this.state.deck}
-                         shownCards={this.state.shownDeck}
+                         trash={this.state.trash}
                          cardSelected={this.state.cardSelected}
                          lastState={this.state.lastState}
+                         mode={this.state.mode}
                          onPress={this.handleSelectCard}
                          onPressDeck={this.handlePressDeck}
                          onResetDeck={this.handleResetDeck}
@@ -359,5 +397,8 @@ class Solitaire extends Component {
         );
     }
 }
+
+Solitaire.EASY_MODE = 1;
+Solitaire.HARD_MODE = 3;
 
 export default Solitaire;

@@ -4,6 +4,7 @@ import { AppRegistry, View, StyleSheet } from 'react-native';
 import CardsStack from '../CardsStack';
 import EmptyDeck from './EmptyDeck';
 import Buttons from './Buttons';
+import Trash from './Trash/Trash';
 
 /**
  * Left bar
@@ -43,8 +44,7 @@ class LeftBar extends Component {
         return (
             <View style={this.style.view}>
                 {this.props.cards.length > 0 ? (
-                    <CardsStack key="hidden"
-                                cards={this.props.cards}
+                    <CardsStack cards={this.props.cards}
                                 allHidden={true}
                                 style={this.style.stacks}
                                 offset={1}
@@ -52,16 +52,15 @@ class LeftBar extends Component {
                                 onPress={this.props.onPressDeck}/>
                 ) : (
                     <EmptyDeck style={this.style.stacks}
-                               disabled={this.props.shownCards.length <= 1}
+                               disabled={this.props.trash.length <= this.props.mode}
                                onPress={this.props.onResetDeck}/>
                 )}
 
-                <CardsStack key="shown"
-                            cards={this.props.shownCards}
-                            allShown={true}
-                            style={this.style.stacks}
-                            cardSelected={this.props.cardSelected}
-                            onPress={(card) => this.props.onPress(card, 'shownDeck')}/>
+                <Trash cards={this.props.trash}
+                       style={this.style.stacks}
+                       cardSelected={this.props.cardSelected}
+                       mode={this.props.mode}
+                       onPress={(card) => this.props.onPress(card, 'trash')}/>
 
                 <Buttons lastState={this.props.lastState}
                          style={this.style.buttons}

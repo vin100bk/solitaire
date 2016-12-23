@@ -100,7 +100,7 @@ class Card extends Component {
 
         return (
             <TouchableWithoutFeedback
-                disabled={!this.props.onPress || (this.props.hidden && Boolean(this.props.children))}
+                disabled={this.props.disabled || !this.props.onPress || (this.props.hidden && Boolean(this.props.children))}
                 onPress={this.handlePress}>
                 <View style={[style, {height: this.getHeight()}]}>
                     {img}

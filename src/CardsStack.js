@@ -67,6 +67,7 @@ class CardsStack extends Component {
                          hidden={this.props.allHidden || (!this.props.allShown && index < this.props.nbHiddenCards)}
                          offset={this.state.offset}
                          isSelected={this.props.cards[index] === this.props.cardSelected}
+                         disabled={this.props.enableOnlyLast && index < this.props.cards.length - 1}
                          onPress={this.props.onPress}>
                 {this.getNextCard(index + 1)}
             </Card>;
