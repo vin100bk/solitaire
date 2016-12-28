@@ -317,7 +317,7 @@ class Solitaire extends Component {
         this.setState((prevState, props) => {
             prevState.deck = prevState.trash.reverse();
             // Pick the first card(s)
-            let v = prevState.deck.splice(-prevState.mode, prevState.mode);
+            let v = prevState.deck.splice(-prevState.mode, prevState.mode).reverse();
             prevState.trash = v;
         });
     }
